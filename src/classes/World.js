@@ -1,6 +1,7 @@
 import { PerspectiveCamera, Scene } from 'three';
 import Renderer from './Renderer.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import Room from './Room.js';
 
 export default class World {
   static instance;
@@ -16,7 +17,7 @@ export default class World {
     this.scene = this.setScene();
     this.renderer = this.setRenderer(options.rendererConfig);
     this.control = new OrbitControls(this.camera, this.renderer.domElement);
-
+    this.setRoom();
     this.update();
   }
 
@@ -34,6 +35,10 @@ export default class World {
   setRenderer(opts) {
     const renderer = new Renderer(opts);
     return renderer;
+  }
+
+  setRoom() {
+    this.room = new Room();
   }
 
   update() {

@@ -1,6 +1,6 @@
 import World from './classes/World.js';
 import './assets/common.css';
-import { BoxGeometry, Mesh, MeshBasicMaterial } from 'three';
+import { BoxGeometry, DirectionalLight, Mesh, MeshBasicMaterial } from 'three';
 
 const size = {
   width: window.innerWidth,
@@ -25,8 +25,8 @@ const scene = world.scene;
 
 const camera = world.camera;
 camera.position.set(3, 3, 1);
-
-scene.add(new Mesh(new BoxGeometry(), new MeshBasicMaterial()));
+const light = new DirectionalLight();
+scene.add(new Mesh(new BoxGeometry(), new MeshBasicMaterial()), light);
 renderer.setSizeAndPixel(size);
 document.body.appendChild(world.renderer.domElement);
 
