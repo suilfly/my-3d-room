@@ -1,6 +1,6 @@
 import World from './classes/World.js';
 import './assets/common.css';
-import { BoxGeometry, DirectionalLight, Mesh, MeshBasicMaterial } from 'three';
+import { DirectionalLight } from 'three';
 
 const size = {
   width: window.innerWidth,
@@ -9,7 +9,7 @@ const size = {
 
 const world = new World({
   cameraConfig: {
-    fov: 75,
+    fov: 85,
     aspect: size.width / size.height,
     near: 1,
     far: 1000,
@@ -24,9 +24,10 @@ const renderer = world.renderer;
 const scene = world.scene;
 
 const camera = world.camera;
+camera.rotation.reorder('YXZ');
 camera.position.set(3, 3, 1);
-const light = new DirectionalLight();
-scene.add(new Mesh(new BoxGeometry(), new MeshBasicMaterial()), light);
+const light = new DirectionalLight('#fff', 3);
+scene.add(light);
 renderer.setSizeAndPixel(size);
 document.body.appendChild(world.renderer.domElement);
 
