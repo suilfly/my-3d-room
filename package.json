@@ -11,13 +11,16 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "glsl-blend": "^1.0.3",
     "three": "^0.163.0"
   },
   "devDependencies": {
     "copy-webpack-plugin": "^12.0.2",
     "css-loader": "^7.1.1",
     "file-loader": "^6.2.0",
+    "glslify-loader": "^2.0.0",
     "html-webpack-plugin": "^5.6.0",
+    "raw-loader": "^4.0.2",
     "style-loader": "^4.0.0",
     "ts-loader": "^9.5.1",
     "webpack": "^5.91.0",

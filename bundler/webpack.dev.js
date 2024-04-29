@@ -15,6 +15,15 @@ module.exports = {
         test: /\.css$/,
         use: ['style-loader', 'css-loader'],
       },
+      {
+        test: /\.jpg$/,
+        type: 'asset/resource',
+      },
+      {
+        test: /\.glsl$/,
+        exclude: /node_modules/,
+        use: ['raw-loader', 'glslify-loader'],
+      },
     ],
   },
   plugins: [
