@@ -2,7 +2,8 @@ import { PerspectiveCamera, Scene } from 'three';
 import Renderer from './Renderer.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import Room from './Room.js';
-
+import Loader from './Loader.js';
+new Loader();
 export default class World {
   static instance;
 

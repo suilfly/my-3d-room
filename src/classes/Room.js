@@ -2,16 +2,20 @@ import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 import World from './World.js';
 
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import { Color, ShaderMaterial, TextureLoader } from 'three';
+import { Color, Mesh, ShaderMaterial, TextureLoader } from 'three';
+import * as THREE from 'three';
 import bakedDay from '../assets/texture/bakedDay.jpg';
 import bakedNeutral from '../assets/texture/bakedNeutral.jpg';
 import bakedNight from '../assets/texture/bakedNight.jpg';
 
 import vertexShader from '../shaders/baked/vertex.glsl';
 import fragmentShader from '../shaders/baked/fragment.glsl';
+import EventEmitter from './EventEmit.js';
 
-export default class Room {
+export default class Room extends EventEmitter {
   constructor() {
+    super();
+
     this.world = new World();
 
     this.setRoom();
@@ -32,21 +36,32 @@ export default class Room {
 
     textureLoader.load(bakedDay, (texture) => {
       dayTexture = texture;
+      dayTexture.needsUpdate = true;
+      dayTexture.colorSpace = THREE.SRGBColorSpace;
+      dayTexture.flipY = false; // 作用是否让texture沿y轴翻转(镜像翻转)。默认是true
 
       textureLoader.load(bakedNeutral, (b) => {
         neutralTexture = b;
-
+        neutralTexture.needsUpdate = true;
+        neutralTexture.flipY = false;
         textureLoader.load(bakedNight, (c) => {
           nightTexture = c;
+          nightTexture.needsUpdate = true;
+          nightTexture.flipY = false;
           a();
+          console.log(dayTexture, neutralTexture, nightTexture);
         });
       });
     });
 
     modelLoader.load('/model/roomModel.glb', (data) => {
       const model = data.scene.children[0];
-      model.material = material;
-      this.world.scene.add(data.scene.children[0]);
+      model.traverse((child) => {
+        if (child instanceof Mesh) {
+          child.material = material;
+        }
+      });
+      this.world.scene.add(model);
     });
 
     function a() {

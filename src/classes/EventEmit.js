@@ -1,15 +1,11 @@
 export default class EventEmitter {
-  constructor(namespace) {
+  constructor() {
     this.callbackPool = {};
-    this.namespace = namespace || 'normal';
   }
 
   on(name, callback) {
-    let pool = null;
-    if (!this.callbackPool[this.namespace]) {
-      this.callbackPool[this.namespace] = {};
-    }
-    pool = this.callbackPool[this.namespace];
+    let pool = this.callbackPool;
+
     if (!pool[name]) {
       pool[name] = [];
     }
@@ -17,7 +13,7 @@ export default class EventEmitter {
   }
 
   emit(name, args) {
-    const pool = this.callbackPool[this.namespace];
+    const pool = this.callbackPool;
     if (!pool[name]) {
       console.warn(`can't find callback called ${name}`);
       return;
