@@ -3,7 +3,8 @@ import Renderer from './Renderer.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import Room from './Room.js';
 import Loader from './Loader.js';
-new Loader();
+import resource from './ResourceStore.js';
+
 export default class World {
   static instance;
 
@@ -18,6 +19,10 @@ export default class World {
     this.scene = this.setScene();
     this.renderer = this.setRenderer(options.rendererConfig);
     this.control = new OrbitControls(this.camera, this.renderer.domElement);
+    this.loader = new Loader();
+    this.resources = resource;
+
+    this.loadResource();
     this.setRoom();
     this.update();
   }
@@ -40,6 +45,12 @@ export default class World {
 
   setRoom() {
     this.room = new Room();
+  }
+
+  loadResource() {
+    this.resources.forEach((resource) => {
+      this.loader.load(resource);
+    });
   }
 
   update() {
