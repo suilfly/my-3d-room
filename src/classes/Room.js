@@ -11,7 +11,12 @@ export default class Room extends EventEmitter {
 
     this.world = new World();
 
-    this.model = null;
+    this.model = {
+      roomModel: null,
+      topChairModel: null,
+      macScreenModel: null,
+      coffeeSteamModel: null,
+    };
 
     this.textures = {
       bakedDay: null,
@@ -19,12 +24,14 @@ export default class Room extends EventEmitter {
       bakedNight: null,
     };
 
+    this.material = null;
+
     this.bindTrigger();
   }
 
   configRoom() {
     const { bakedDay, bakedNeutral, bakedNight } = this.textures;
-    let material = new ShaderMaterial({
+    this.material = new ShaderMaterial({
       uniforms: {
         uBakedDayTexture: { value: bakedDay },
         uBakedNightTexture: { value: bakedNight },
@@ -46,10 +53,12 @@ export default class Room extends EventEmitter {
       fragmentShader: fragmentShader,
     });
 
-    this.model.traverse((child) => {
-      if (child instanceof Mesh) {
-        child.material = material;
-      }
+    Object.values(this.model).forEach((model) => {
+      model.traverse((child) => {
+        if (child instanceof Mesh) {
+          child.material = this.material;
+        }
+      });
     });
   }
 
@@ -66,7 +75,7 @@ export default class Room extends EventEmitter {
           this.emit('end');
         }
         if (resource.type === 'model') {
-          this.model = result;
+          this.model[resource.name] = result;
           this.world.scene.add(result);
           this.emit('end');
         }
@@ -75,17 +84,18 @@ export default class Room extends EventEmitter {
     );
 
     this.on('end', () => {
-      const isAllTextureLoaded = this.isTextureAllLoadEnd(this.textures);
-      if (isAllTextureLoaded && this.model) {
+      const isAllTextureLoaded = this.isAllLoadEnd(this.textures);
+      const isAllModelLoaded = this.isAllLoadEnd(this.model);
+      if (isAllTextureLoaded && isAllModelLoaded) {
         this.configRoom();
       }
     });
   }
 
-  isTextureAllLoadEnd(textures) {
+  isAllLoadEnd(data) {
     let flag = true;
-    for (let key in textures) {
-      if (!textures[key]) {
+    for (let key in data) {
+      if (!data[key]) {
         flag = false;
         break;
       }
