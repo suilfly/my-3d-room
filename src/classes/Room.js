@@ -53,13 +53,17 @@ export default class Room extends EventEmitter {
       fragmentShader: fragmentShader,
     });
 
-    Object.values(this.model).forEach((model) => {
+    [this.model.roomModel, this.model.topChairModel].forEach((model) => {
       model.traverse((child) => {
         if (child instanceof Mesh) {
           child.material = this.material;
         }
       });
     });
+  }
+
+  configCoffeeStream() {
+    const material = new ShaderMaterial({});
   }
 
   bindTrigger() {

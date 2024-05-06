@@ -5,6 +5,12 @@ export default [
   { name: 'roomModel', url: '/model/roomModel.glb', type: 'model' },
   { name: 'topChairModel', url: '/model/topChairModel.glb', type: 'model' },
   { name: 'macScreenModel', url: '/model/macScreenModel.glb', type: 'model' },
+  { name: 'pcScreenModel', url: '/model/pcScreenModel.glb', type: 'model' },
+  {
+    name: 'elgatoLightModel',
+    url: '/model/elgatoLightModel.glb',
+    type: 'model',
+  },
   {
     name: 'coffeeSteamModel',
     url: '/model/coffeeSteamModel.glb',
