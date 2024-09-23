@@ -30,6 +30,9 @@ export default class World {
   setCamera(opts) {
     const { fov = 40, aspect = 1.5, near = 1, far = 1000 } = opts;
     const camera = new PerspectiveCamera(fov, aspect, near, far);
+    if (opts?.position) {
+      camera.position.set(...opts.position);
+    }
     return camera;
   }
 

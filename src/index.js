@@ -13,6 +13,7 @@ const world = new World({
     aspect: size.width / size.height,
     near: 1,
     far: 1000,
+    position: [-7, 7.04, 8.36],
   },
   rendererConfig: {
     alpha: false,
@@ -25,7 +26,6 @@ const scene = world.scene;
 
 const camera = world.camera;
 camera.rotation.reorder('YXZ');
-camera.position.set(3, 3, 1);
 const light = new DirectionalLight('#fff', 3);
 scene.add(light);
 renderer.setSizeAndPixel(size);
